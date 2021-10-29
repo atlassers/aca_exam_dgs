@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -69,5 +70,28 @@ public class BigliettoServiceImplTest {
         assertEquals(1, result.size());
         verify(bigliettoRepositoryMock, times(1)).findAll();
         verify(bigliettoConverterMock, times(bigliettiMock.size())).fromModelToDto(any(Biglietto.class));
+    }
+
+    @Test
+    public void givenLongIdWhenGetThenReturnAppropriateBiglietto() {
+        //arrange
+        Long id = 1L;
+        Biglietto bigliettoMock = Biglietto.builder()
+                .id(1L)
+                .giorno(LocalDate.now())
+                .numPosto(42)
+                .spettatore(new Spettatore())
+                .sala(new SalaCinematografica())
+                .prezzo(10.0)
+                .build();
+
+        Mockito.when(bigliettoRepositoryMock.findById(id)).thenReturn(Optional.of(bigliettoMock));
+
+        //act
+        systemUnderTest.get(id);
+
+        //assert
+        verify(bigliettoRepositoryMock, times(1)).findById(id);
+        verify(bigliettoConverterMock, times(1)).fromModelToDto(any(Biglietto.class));
     }
 }

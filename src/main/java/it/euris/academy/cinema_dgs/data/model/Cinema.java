@@ -13,6 +13,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -21,15 +22,20 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "cinema")
-@SQLDelete(sql = "UPDATE robot SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE cinema SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class Cinema {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
-    @Column(name = "sala")
-    List<SalaCinematografica> sale;
+    @Column(name = "deleted")
+    @Builder.Default
+    private Boolean deleted = Boolean.FALSE;
+
+    @OneToMany(mappedBy = "cinema",cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<SalaCinematografica> sale = new ArrayList<>();
 }

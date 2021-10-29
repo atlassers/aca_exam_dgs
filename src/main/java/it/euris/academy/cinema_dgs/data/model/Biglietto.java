@@ -8,6 +8,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,4 +41,7 @@ public class Biglietto {
 
     @Column(name = "prezzo")
     private Double prezzo;
+
+    @Column(name = "giorno")
+    private LocalDate giorno;
 }

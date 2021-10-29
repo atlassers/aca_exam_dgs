@@ -17,4 +17,5 @@ public class BigliettoDto {
     private String numPosto;
     private String sala;
     private String prezzo;
+    private String giorno;
 }

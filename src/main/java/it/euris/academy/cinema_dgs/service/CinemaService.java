@@ -13,6 +13,6 @@ public interface CinemaService {
     Boolean delete(Long id);
     
     //metodi specifici
-    Double incassoTotalePerGiorno(LocalDate giorno);
-    Double incassoTotale();
+    Double incassoTotalePerGiorno(Long id, LocalDate giorno);
+    Double incassoTotale(Long id);
 }

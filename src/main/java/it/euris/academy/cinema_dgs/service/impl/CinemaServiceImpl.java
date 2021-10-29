@@ -6,6 +6,7 @@ import it.euris.academy.cinema_dgs.exception.IdDeveEssereNullo;
 import it.euris.academy.cinema_dgs.exception.IdNonDeveEssereNullo;
 import it.euris.academy.cinema_dgs.repository.CinemaRepository;
 import it.euris.academy.cinema_dgs.service.CinemaService;
+import it.euris.academy.cinema_dgs.service.SalaCinematograficaService;
 import it.euris.academy.cinema_dgs.utils.converter.CinemaConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class CinemaServiceImpl implements CinemaService {
 
     @Autowired
     CinemaConverter cinemaConverter;
+
+    @Autowired
+    SalaCinematograficaService salaCinematograficaService;
 
     @Override
     public List<CinemaDto> getAll() {
@@ -60,12 +64,44 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
-    public Double incassoTotalePerGiorno(LocalDate giorno) {
+    public Double incassoTotalePerGiorno(Long id, LocalDate giorno) {
+        Optional<Cinema> forseCinema = cinemaRepository.findById(id);
+
+        if(forseCinema.isPresent()){
+            Cinema cinema = forseCinema.get();
+            Double incasso = 0.0;
+            List<Double> incassi = cinema.getSale().stream()
+                    .map((sala) -> salaCinematograficaService.incassoSalaPerGiorno(sala.getId(), giorno))
+                    .collect(Collectors.toList());
+            for (Double importo:
+                 incassi) {
+                incasso += importo;
+            }
+
+            return incasso;
+        }
+
         return null;
     }
 
     @Override
-    public Double incassoTotale() {
+    public Double incassoTotale(Long id) {
+        Optional<Cinema> forseCinema = cinemaRepository.findById(id);
+
+        if(forseCinema.isPresent()){
+            Cinema cinema = forseCinema.get();
+            Double incasso = 0.0;
+            List<Double> incassi = cinema.getSale().stream()
+                    .map(sala -> salaCinematograficaService.incassoTotaleSala(sala.getId()))
+                    .collect(Collectors.toList());
+            for (Double importo:
+                    incassi) {
+                incasso += importo;
+            }
+
+            return incasso;
+        }
+
         return null;
     }
 }

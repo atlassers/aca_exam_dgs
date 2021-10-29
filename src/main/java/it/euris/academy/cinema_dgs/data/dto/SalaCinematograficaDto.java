@@ -14,7 +14,8 @@ import java.util.List;
 public class SalaCinematograficaDto {
 
     private String id;
-    private String deleted;
+    @Builder.Default
+    private String deleted="FALSE";
     private String cinema;
     private String spettatoriMax;
     private String film;

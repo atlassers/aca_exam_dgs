@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class BigliettoDto {
 
     private String id;
-    private String deleted;
+    @Builder.Default
+    private String deleted = "FALSE";
     private String spettatore;
     private String numPosto;
     private String sala;

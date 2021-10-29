@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class SpettatoreDto {
 
     private String id;
-    private String deleted;
+    @Builder.Default
+    private String deleted="FALSE";
     private String nome;
     private String cognome;
     private String dataNascita;

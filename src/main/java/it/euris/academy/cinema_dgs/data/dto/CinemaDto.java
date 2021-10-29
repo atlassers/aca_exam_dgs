@@ -14,6 +14,7 @@ import java.util.List;
 public class CinemaDto {
 
     private String id;
-    private String deleted;
+    @Builder.Default
+    private String deleted="FALSE";
     private List<String> sale;
 }

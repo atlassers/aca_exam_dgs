@@ -8,7 +8,6 @@ import it.euris.academy.cinema_dgs.exception.IdDeveEssereNullo;
 import it.euris.academy.cinema_dgs.exception.IdNonDeveEssereNullo;
 import it.euris.academy.cinema_dgs.repository.BigliettoRepository;
 import it.euris.academy.cinema_dgs.service.BigliettoService;
-import it.euris.academy.cinema_dgs.service.FilmService;
 import it.euris.academy.cinema_dgs.service.SpettatoreService;
 import it.euris.academy.cinema_dgs.utils.converter.BigliettoConverter;
 import it.euris.academy.cinema_dgs.utils.converter.SpettatoreConverter;

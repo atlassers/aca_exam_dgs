@@ -17,7 +17,8 @@ import java.util.List;
 public class FilmDto {
 
     private String id;
-    private String deleted;
+    @Builder.Default
+    private String deleted="FALSE";
     @NotNull
     private String titolo;
     @NotNull

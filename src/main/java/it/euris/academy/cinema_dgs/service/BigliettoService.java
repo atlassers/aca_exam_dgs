@@ -12,5 +12,5 @@ public interface BigliettoService {
     Boolean delete(Long id);
     
     //metodi specifici
-    //Double calcolaPrezzo(BigliettoDto bigliettoDto);
+    //void calcolaPrezzo(BigliettoDto bigliettoDto);
 }

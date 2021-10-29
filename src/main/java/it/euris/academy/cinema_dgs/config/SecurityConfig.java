@@ -18,6 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/actuator/*", "/swagger-ui.html**", "/webjars/**", "/v3/**").authenticated()
                 .antMatchers("/films/**").hasRole("supervisor")
                 .antMatchers("/spettatori/**").hasRole("supervisor")
+                .antMatchers("/biglietti/**").hasRole("supervisor")
+                .antMatchers("/cinemas/**").hasRole("supervisor")
                 .and()
                 .httpBasic();
     }

@@ -24,6 +24,21 @@ public class SpettatoreController {
         return spettatoreService.get(id);
     }
 
+    @GetMapping("/v1/eta/{id}")
+    public Integer etaAsInteger(@RequestBody SpettatoreDto spettatoreDto){
+        return spettatoreService.etaAsInteger(spettatoreDto);
+    }
+
+    @GetMapping("/v1/eta/maggiorenne/{id}")
+    public Boolean isMaggiorenne(@RequestBody SpettatoreDto spettatoreDto){
+        return spettatoreService.isMaggiorenne(spettatoreDto);
+    }
+
+    @GetMapping("/v1/sconto/{id}")
+    public Double getSconto(@RequestBody SpettatoreDto spettatoreDto){
+        return spettatoreService.getSconto(spettatoreDto);
+    }
+
     @PostMapping("/v1")
     public SpettatoreDto post(@RequestBody SpettatoreDto spettatoreDto) {
         return spettatoreService.add(spettatoreDto);

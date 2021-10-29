@@ -6,6 +6,7 @@ import it.euris.academy.cinema_dgs.exception.IdDeveEssereNullo;
 import it.euris.academy.cinema_dgs.exception.IdNonDeveEssereNullo;
 import it.euris.academy.cinema_dgs.repository.SpettatoreRepository;
 import it.euris.academy.cinema_dgs.service.SpettatoreService;
+import it.euris.academy.cinema_dgs.utils.Utilities;
 import it.euris.academy.cinema_dgs.utils.converter.SpettatoreConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,27 +62,21 @@ public class SpettatoreServiceImpl implements SpettatoreService {
     }
 
     @Override
-    public Integer etaAsInteger(Long id) {
-        Optional<Spettatore> spettatore = spettatoreRepository.findById(id);
-
-        if(spettatore.isPresent()){
-            LocalDate dataNascita = spettatore.get().getDataNascita();
-            Integer etaAnni = Period.between(dataNascita, LocalDate.now()).getYears();
-            return etaAnni;
-        }
-
-        return null;
+    public Integer etaAsInteger(SpettatoreDto spettatoreDto) {
+        LocalDate dataNascita = Utilities.fromStringToLocalDate(spettatoreDto.getDataNascita());
+        Integer etaAnni = Period.between(dataNascita, LocalDate.now()).getYears();
+        return etaAnni;
     }
 
     @Override
-    public Boolean isMaggiorenne(Long id) {
-        Integer etaAnni = etaAsInteger(id);
+    public Boolean isMaggiorenne(SpettatoreDto spettatoreDto) {
+        Integer etaAnni = etaAsInteger(spettatoreDto);
         return etaAnni>17;
     }
 
     @Override
-    public Double getSconto(Long id) {
-        Integer etaAnni = etaAsInteger(id);
+    public Double getSconto(SpettatoreDto spettatoreDto) {
+        Integer etaAnni = etaAsInteger(spettatoreDto);
         if(etaAnni<5){
             return 0.5;
         } else if(etaAnni>70){

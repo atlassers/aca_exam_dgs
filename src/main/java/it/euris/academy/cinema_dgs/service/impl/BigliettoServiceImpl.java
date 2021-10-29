@@ -11,6 +11,7 @@ import it.euris.academy.cinema_dgs.service.BigliettoService;
 import it.euris.academy.cinema_dgs.service.FilmService;
 import it.euris.academy.cinema_dgs.service.SpettatoreService;
 import it.euris.academy.cinema_dgs.utils.converter.BigliettoConverter;
+import it.euris.academy.cinema_dgs.utils.converter.SpettatoreConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,9 @@ public class BigliettoServiceImpl implements BigliettoService {
 
     @Autowired
     SpettatoreService spettatoreService;
+
+    @Autowired
+    SpettatoreConverter spettatoreConverter;
 
     @Override
     public List<BigliettoDto> getAll() {
@@ -70,7 +74,7 @@ public class BigliettoServiceImpl implements BigliettoService {
     private void calcolaPrezzo(BigliettoDto bigliettoDto) {
         Biglietto biglietto = bigliettoConverter.fromDtoToModel(bigliettoDto);
         Spettatore spettatore = biglietto.getSpettatore();
-        Double sconto = spettatoreService.getSconto(spettatore.getId());
+        Double sconto = spettatoreService.getSconto(spettatoreConverter.fromModelToDto(spettatore));
         Film film = biglietto.getSala().getFilm();
         Double prezzoFinale = film.getPrezzoFilm()*sconto;
         biglietto.setPrezzo(prezzoFinale);

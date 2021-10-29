@@ -13,7 +13,7 @@ public interface SpettatoreService {
     Boolean delete(Long id);
 
     //metodi specifici
-    Integer etaAsInteger(Long id);
-    Boolean isMaggiorenne(Long id);
-    Double getSconto(Long id);
+    Integer etaAsInteger(SpettatoreDto spettatoreDto);
+    Boolean isMaggiorenne(SpettatoreDto spettatoreDto);
+    Double getSconto(SpettatoreDto spettatoreDto);
 }

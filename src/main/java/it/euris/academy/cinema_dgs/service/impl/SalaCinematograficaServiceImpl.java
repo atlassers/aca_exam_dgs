@@ -6,11 +6,14 @@ import it.euris.academy.cinema_dgs.data.dto.SpettatoreDto;
 import it.euris.academy.cinema_dgs.data.model.Biglietto;
 import it.euris.academy.cinema_dgs.data.model.SalaCinematografica;
 import it.euris.academy.cinema_dgs.data.model.Spettatore;
+import it.euris.academy.cinema_dgs.exception.FilmVietatoAiMinori;
 import it.euris.academy.cinema_dgs.exception.IdDeveEssereNullo;
 import it.euris.academy.cinema_dgs.exception.IdNonDeveEssereNullo;
+import it.euris.academy.cinema_dgs.exception.SalaAlCompleto;
 import it.euris.academy.cinema_dgs.repository.SalaCinematograficaRepository;
 import it.euris.academy.cinema_dgs.service.BigliettoService;
 import it.euris.academy.cinema_dgs.service.SalaCinematograficaService;
+import it.euris.academy.cinema_dgs.service.SpettatoreService;
 import it.euris.academy.cinema_dgs.utils.converter.BigliettoConverter;
 import it.euris.academy.cinema_dgs.utils.converter.SalaCinematograficaConverter;
 import it.euris.academy.cinema_dgs.utils.converter.SpettatoreConverter;
@@ -37,6 +40,9 @@ public class SalaCinematograficaServiceImpl implements SalaCinematograficaServic
 
     @Autowired
     BigliettoConverter bigliettoConverter;
+
+    @Autowired
+    SpettatoreService spettatoreService;
 
     @Override
     public List<SalaCinematograficaDto> getAll() {
@@ -87,17 +93,23 @@ public class SalaCinematograficaServiceImpl implements SalaCinematograficaServic
         if(sala.isPresent()){
             SalaCinematografica salaCine = sala.get();
             if(salaCine.getBiglietti().size() < salaCine.getSpettatoriMax()){
-                SalaCinematograficaDto salaCineDto = salaCinematograficaConverter.fromModelToDto(salaCine);
-                Integer randomNumPosto = new Random().nextInt(100);
-                BigliettoDto nuovoBigliettoDto = BigliettoDto.builder()
-                        .sala(salaCineDto.getId())
-                        .spettatore(spettatoreDto.getId())
-                        .numPosto(randomNumPosto.toString())
-                        .giorno(LocalDate.now().toString())
-                        .build();
-                nuovoBigliettoDto = bigliettoService.add(nuovoBigliettoDto);
-                Biglietto nuovoBiglietto = bigliettoConverter.fromDtoToModel(nuovoBigliettoDto);
-                salaCine.getBiglietti().add(nuovoBiglietto);
+                if(salaCine.getFilm().getEtaMinima() < spettatoreService.etaAsInteger(spettatoreDto)){
+                    SalaCinematograficaDto salaCineDto = salaCinematograficaConverter.fromModelToDto(salaCine);
+                    Integer randomNumPosto = new Random().nextInt(100);
+                    BigliettoDto nuovoBigliettoDto = BigliettoDto.builder()
+                            .sala(salaCineDto.getId())
+                            .spettatore(spettatoreDto.getId())
+                            .numPosto(randomNumPosto.toString())
+                            .giorno(LocalDate.now().toString())
+                            .build();
+                    nuovoBigliettoDto = bigliettoService.add(nuovoBigliettoDto);
+                    Biglietto nuovoBiglietto = bigliettoConverter.fromDtoToModel(nuovoBigliettoDto);
+                    salaCine.getBiglietti().add(nuovoBiglietto);
+                } else {
+                    throw new FilmVietatoAiMinori();
+                }
+            } else {
+                throw new SalaAlCompleto();
             }
         }
     }

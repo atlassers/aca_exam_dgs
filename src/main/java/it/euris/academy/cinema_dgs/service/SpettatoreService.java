@@ -13,7 +13,7 @@ public interface SpettatoreService {
     Boolean delete(Long id);
 
     //metodi specifici
-    Boolean isMaggiorenne();
-    Integer etaAsInteger();
-    Double getSconto(); //TODO sconto -10% se età>70; sconto -50% se età < 5 anni
+    Integer etaAsInteger(Long id);
+    Boolean isMaggiorenne(Long id);
+    Double getSconto(Long id);
 }

@@ -1,5 +1,6 @@
 package it.euris.academy.cinema_dgs.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.euris.academy.cinema_dgs.data.enums.Generi;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,7 @@ public class Film {
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.REFRESH)
     @Builder.Default
+    @JsonIgnore
     private List<SalaCinematografica> sale = new ArrayList<>();
 
     @Column(name = "titolo")
@@ -53,4 +55,7 @@ public class Film {
 
     @Column(name = "durata")
     private Double durata;
+
+    @Column(name = "prezzo_film")
+    private Double prezzoFilm;
 }

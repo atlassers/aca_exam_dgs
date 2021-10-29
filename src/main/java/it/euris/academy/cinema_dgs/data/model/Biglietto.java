@@ -29,7 +29,7 @@ public class Biglietto {
     @Builder.Default
     private Boolean deleted = Boolean.FALSE;
 
-    @OneToOne(mappedBy = "biglietto")
+    @OneToOne(mappedBy = "biglietto", cascade = CascadeType.ALL)
     private Spettatore spettatore;
 
     @Column(name = "numero_posto")

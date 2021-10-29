@@ -15,8 +15,8 @@ public interface SalaCinematograficaService {
     Boolean delete(Long id);
     
     //metodi specifici
-    void svuotaSala();
-    void aggiungiSpettatore(SpettatoreDto spettatoreDto);
-    Double incassoSalaPerGiorno(LocalDate giorno);
-    Double incassoTotaleSala();
+    void svuotaSala(Long id);
+    void aggiungiSpettatore(Long id, SpettatoreDto spettatoreDto);
+    Double incassoSalaPerGiorno(Long id, LocalDate giorno);
+    Double incassoTotaleSala(Long id);
 }

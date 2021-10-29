@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @NoArgsConstructor
@@ -26,5 +25,11 @@ import java.util.List;
 @Where(clause = "deleted=false")
 public class Cinema {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    Long id;
+
+    @Column(name = "sala")
     List<SalaCinematografica> sale;
 }

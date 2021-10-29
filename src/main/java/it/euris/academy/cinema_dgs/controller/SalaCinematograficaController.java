@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/salaCinematograficas")
+@RequestMapping("/sale")
 public class SalaCinematograficaController {
 
     @Autowired
